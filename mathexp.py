@@ -122,20 +122,20 @@ def is_operator(token):
 
 
 def exp_check(exp):
+    if not parens_are_balanced(exp):
+        raise Exception(MALFORMED_EXPRESSION_ERROR)
     exp = exp.replace(" ", "")
-    if exp[0] == "-":   #Don't know how to overload the - sign operator
-        exp = "0" + exp #So just make it a substract from 0
-    if exp[0] == "+":
-        exp = exp[1:]
+    exp = remove_extra_parens(exp)
     first = exp[0]
     last = exp[-1]
     if is_operator(first) and first != "+" and first != "-":
         raise Exception(MALFORMED_EXPRESSION_ERROR)
     if is_operator(last):
         raise Exception(MALFORMED_EXPRESSION_ERROR)
-    if not parens_are_balanced(exp):
-        raise Exception(MALFORMED_EXPRESSION_ERROR)
-    exp = remove_extra_parens(exp)
+    if exp[0] == "-":   #Don't know how to overload the - sign operator
+        exp = "0" + exp #So just make it a substract from 0
+    if exp[0] == "+":
+        exp = exp[1:]
     return exp
 
 
